@@ -1,13 +1,20 @@
 <template>
   <header>
-    <nav class="nav-links" v-show="!isMobile">
-      <ul>
-        <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
-        <router-link class="link" :to="{ name: 'About' }">About</router-link>
-        <router-link class="link" :to="{ name: 'About' }"
-          >Login/Register</router-link
+    <nav class="nav-container">
+      <div class="page-title">
+        <router-link class="header-title" :to="{ name: 'Home' }"
+          >My Book Collection</router-link
         >
-      </ul>
+      </div>
+      <div class="nav-links" v-show="!isMobile">
+        <ul>
+          <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+          <router-link class="link" :to="{ name: 'About' }">About</router-link>
+          <router-link class="link" :to="{ name: 'About' }"
+            >Login/Register</router-link
+          >
+        </ul>
+      </div>
     </nav>
 
     <button
@@ -25,9 +32,13 @@
 
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="isMobile && showSidebar">
-        <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
-        <router-link class="link" :to="{ name: 'About' }">About</router-link>
-        <router-link class="link" :to="{ name: 'About' }"
+        <router-link class="link" @click="toggleSidebar" :to="{ name: 'Home' }"
+          >Home</router-link
+        >
+        <router-link class="link" @click="toggleSidebar" :to="{ name: 'About' }"
+          >About</router-link
+        >
+        <router-link class="link" @click="toggleSidebar" :to="{ name: 'About' }"
           >Login/Register</router-link
         >
       </ul>
@@ -40,7 +51,7 @@ import { ref } from "vue";
 export default {
   name: "Header",
   setup() {
-    const isMobile = ref(false);
+    const isMobile = ref(null);
     const showSidebar = ref(false);
     const windowWidth = ref(null);
 
@@ -48,9 +59,9 @@ export default {
       windowWidth.value = window.innerWidth;
       if (windowWidth.value <= 750) {
         isMobile.value = true;
-        return;
+      } else {
+        isMobile.value = false;
       }
-      isMobile.value = false;
       return;
     }
 
@@ -63,7 +74,7 @@ export default {
       checkScreen();
     });
 
-    return { isMobile, checkScreen, showSidebar, toggleSidebar };
+    return { isMobile, showSidebar, toggleSidebar };
   },
 };
 </script>
@@ -71,14 +82,31 @@ export default {
 <style scoped>
 header {
   background-color: #eee;
-  /* padding: 5px 0; */
-  font-family: Verdana, Tahoma, sans-serif;
+  padding: 12px 25px;
+}
+
+.nav-container {
+  display: flex;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
 }
 
 .nav-links {
   position: relative;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  flex: 1;
 }
 
 .mobile-nav {
@@ -89,7 +117,6 @@ header {
   height: 100%;
   top: 0;
   left: 0;
-  margin-top: 0;
 }
 
 .mobile-nav-enter-active,
@@ -109,7 +136,7 @@ header {
 .mobile-nav .link {
   display: flex;
   flex-direction: column;
-  padding: 15px 0;
+  padding: 15px 50px;
 }
 
 .nav-links .link {
@@ -159,11 +186,5 @@ header {
 
 .navbar-toggle .icon-bar + .icon-bar {
   margin-top: 4px;
-}
-
-@media screen and (max-width: 750px) {
-  header {
-    padding: 25px 0;
-  }
 }
 </style>
