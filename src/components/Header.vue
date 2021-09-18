@@ -8,8 +8,12 @@
       </div>
       <div class="nav-links" v-show="!isMobile">
         <ul>
-          <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
-          <router-link class="link" :to="{ name: 'About' }">About</router-link>
+          <router-link class="link" :to="{ name: 'Home' }"
+            >Discover Books</router-link
+          >
+          <router-link class="link" :to="{ name: 'About' }"
+            >My Books</router-link
+          >
           <router-link class="link" :to="{ name: 'About' }"
             >Login/Register</router-link
           >
@@ -33,10 +37,10 @@
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="isMobile && showSidebar">
         <router-link class="link" @click="toggleSidebar" :to="{ name: 'Home' }"
-          >Home</router-link
+          >Discover Books</router-link
         >
         <router-link class="link" @click="toggleSidebar" :to="{ name: 'About' }"
-          >About</router-link
+          >My Books</router-link
         >
         <router-link class="link" @click="toggleSidebar" :to="{ name: 'About' }"
           >Login/Register</router-link
@@ -55,21 +59,24 @@ export default {
     const showSidebar = ref(false);
     const windowWidth = ref(null);
 
-    function checkScreen() {
+    // figure out if the screen is small enough to be a mobile device
+    const checkScreen = () => {
       windowWidth.value = window.innerWidth;
-      if (windowWidth.value <= 750) {
+      if (windowWidth.value <= 800) {
         isMobile.value = true;
       } else {
         isMobile.value = false;
       }
       return;
-    }
+    };
 
-    function toggleSidebar() {
+    // flip the sidebar
+    const toggleSidebar = () => {
       showSidebar.value = !showSidebar.value;
-    }
+    };
 
     checkScreen();
+    // check on window resize if it's small enough for mobile view
     document.addEventListener.call(window, "resize", () => {
       checkScreen();
     });
@@ -117,6 +124,7 @@ header {
   height: 100%;
   top: 0;
   left: 0;
+  padding-top: 20px;
 }
 
 .mobile-nav-enter-active,
@@ -140,11 +148,12 @@ header {
 }
 
 .nav-links .link {
-  padding-right: 20px;
+  padding-right: 40px;
 }
 
 .nav-links .link:last-child {
   margin-right: 30px;
+  padding-right: 0;
 }
 
 .link {

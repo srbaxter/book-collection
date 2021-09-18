@@ -20,7 +20,9 @@ export default {
   font-family: Verdana, Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+}
+body {
+  background-color: rgba(254, 255, 253, 0.945);
 }
 * {
   margin: 0;
